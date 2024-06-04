@@ -22,7 +22,7 @@ $params = ['privacy' => ['view' => 'disable']];
 To install the PHP library, run the following command:
 
 ```bash
-composer require vimeo/vimeo-api
+composer require vimeify/vimeo-api
 ```
 
 After installation is complete, you can access the library by using `$lib = new \Vimeo\Vimeo($client_id, $client_secret)` in a Composer-enabled PHP script.
