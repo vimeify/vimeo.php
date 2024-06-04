@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Vimeo\Upload;
+namespace Vimeify\Vimeo\Upload;
 
 
 

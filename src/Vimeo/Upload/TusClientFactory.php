@@ -1,6 +1,6 @@
 <?php
 
-namespace Vimeo\Upload;
+namespace Vimeify\Vimeo\Upload;
 
 use TusPhp\Tus\Client;
 

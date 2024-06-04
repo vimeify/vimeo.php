@@ -1,11 +1,11 @@
 <?php
-namespace Vimeo;
+namespace Vimeify\Vimeo;
 
 use Carbon\Carbon;
-use Vimeo\Exceptions\VimeoException;
-use Vimeo\Exceptions\VimeoRequestException;
-use Vimeo\Exceptions\VimeoUploadException;
-use Vimeo\Upload\TusClientFactory;
+use Vimeify\Vimeo\Exceptions\VimeoException;
+use Vimeify\Vimeo\Exceptions\VimeoRequestException;
+use Vimeify\Vimeo\Exceptions\VimeoUploadException;
+use Vimeify\Vimeo\Upload\TusClientFactory;
 
 /**
  *   Copyright 2013 Vimeo

@@ -1,5 +1,5 @@
 <?php
-namespace Vimeo\Exceptions;
+namespace Vimeify\Vimeo\Exceptions;
 
 /**
  * ExceptionInterface

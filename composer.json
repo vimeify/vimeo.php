@@ -12,25 +12,25 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "php": ">=7.1.0",
+        "php": ">=7.3.0 || ^8.0",
         "ext-curl": "*",
         "ext-json":"*",
-        "ankitpokhrel/tus-php": "^v1.0.0 || ^v2.0.0"
+        "ankitpokhrel/tus-php": "^v2.3.0"
     },
     "autoload": {
         "psr-4": {
-            "Vimeo\\": "src/Vimeo"
+            "Vimeify\\Vimeo\\": "src/Vimeo"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Vimeo\\": "tests/Vimeo"
+            "Vimeify\\Vimeo\\": "tests/Vimeo"
         }
     },
     "require-dev": {
-        "php-coveralls/php-coveralls": "^1.0",
-        "phpunit/phpunit": "^7.4",
-        "vimeo/psalm": "^2.0"
+        "php-coveralls/php-coveralls": "^2.7",
+        "phpunit/phpunit": "^9.0",
+        "vimeo/psalm": "^4.30"
     },
     "scripts": {
         "coverage": "phpunit --coverage-html reports/",
