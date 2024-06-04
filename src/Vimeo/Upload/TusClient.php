@@ -3,8 +3,6 @@
 
 namespace Vimeo\Upload;
 
-
-
 class TusClient extends \TusPhp\Tus\Client
 {
     /**

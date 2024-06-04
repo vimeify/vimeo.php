@@ -599,7 +599,7 @@ class Vimeo
         $client = $this->_tus_client_factory->getTusClient($base_url, $url);
         $client->setApiPath($api_path);
         $client->setKey($key)->file($file_path);
-        $client->getCache()->set($client->getKey(),[
+        $client->getCache()->set($client->getKey(), [
             'location' => $url,
             'expires_at' => Carbon::now()->addSeconds($client->getCache()->getTtl())->format($client->getCache()::RFC_7231),
         ]);
