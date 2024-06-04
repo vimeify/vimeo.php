@@ -7,7 +7,7 @@ We accept contributions via Pull Requests on [Github](https://github.com/vimeo/v
 
 ## Pull Requests
 
-- We try to follow the **[PSR-2 Coding Standard](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md)**.
+- We try to follow the **[PSR-4 Coding Standard](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md)**.
 
 - **Document any change in behaviour** - Make sure the `README.md`, [wiki](https://github.com/vimeo/vimeo.php/wiki), and any other relevant documentation are kept up-to-date.
 
