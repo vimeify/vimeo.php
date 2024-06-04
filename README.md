@@ -35,6 +35,8 @@ To see examples of the most common use cases of the PHP library, visit our [PHP 
 
 This library was built for the purposes of the Vimeify.com WordPress plugin, however, anyone can use it, really!
 
+The main goal of this library is to maintain backwards compatibility with at least 4 PHP major versions, this way, the library will be compatible with most WordPress installs.
+
 ## Support
 
 To troubleshoot an issue, reach out to [Vimeo Support](https://vimeo.com/help/contact).
