@@ -1,5 +1,9 @@
 # Changelog
 
+## [4.0.1] - 2024-06-04
+
+- Allow perform_upload_tus() to be extended
+
 ## [4.0.0] - 2024-06-04
 
 - Support for PHP 7.3+
