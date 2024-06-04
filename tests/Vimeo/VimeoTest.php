@@ -1,5 +1,5 @@
 <?php
-namespace Vimeo;
+namespace Vimeify\Vimeo;
 
 use PHPUnit\Framework\TestCase;
 use ReflectionObject;
