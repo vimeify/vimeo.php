@@ -1,7 +1,7 @@
 <?php
 
-use Vimeo\Vimeo;
-use Vimeo\Exceptions\VimeoUploadException;
+use Vimeify\Vimeo\Vimeo;
+use Vimeify\Vimeo\Exceptions\VimeoUploadException;
 
 /**
  *   Copyright 2013 Vimeo

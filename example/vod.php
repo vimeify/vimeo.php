@@ -1,6 +1,6 @@
 <?php
 
-use Vimeo\Vimeo;
+use Vimeify\Vimeo\Vimeo;
 
 /**
  *   Copyright 2014 Vimeo

@@ -1,9 +1,9 @@
 <?php
 use TusPhp\Tus\Client;
-use Vimeo\Upload\TusClient;
-use Vimeo\Upload\TusClientFactory;
-use Vimeo\Vimeo;
-use Vimeo\Exceptions\VimeoUploadException;
+use Vimeify\Vimeo\Upload\TusClient;
+use Vimeify\Vimeo\Upload\TusClientFactory;
+use Vimeify\Vimeo\Vimeo;
+use Vimeify\Vimeo\Exceptions\VimeoUploadException;
 
 /**
  *   Copyright 2022 Vimeo
