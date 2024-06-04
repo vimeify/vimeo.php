@@ -1,4 +1,18 @@
 # Changelog
+
+## [4.0.0] - 2024-06-04
+
+- Support for PHP 7.3+
+- Upgraded Tus library to v2.3
+- Upgraded PHPUnit to v9
+- Upgraded Psalm to v4.30
+- Upgraded php-coveralls to v2.7
+- Upgraded PHPUnit test configuration
+- Updated namespace from Vimeo to Vimeify/Vimeo
+- Dropped Travis
+- Dropped Styleci
+- Removed useless files (composer.phar, autoload.php)
+
 ## [3.0.8] - 2021-05-03
 ### Fixed
 - Fix user-agent in vimeo.php
