@@ -1,6 +1,6 @@
 # Changelog
 
-## [5.0.0] - Unreleased
+## [5.0.0] - 2026-10-13
 
 - Upload videos with a built-in tus client instead of `ankitpokhrel/tus-php`. The library now depends only on `ext-curl` and `ext-json`, which drops Guzzle, Carbon, Predis, several Symfony components and Ramsey UUID (about 2,400 files) from projects that use it.
 - Stream each upload chunk from the file instead of reading it into memory.
