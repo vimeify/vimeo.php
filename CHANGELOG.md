@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.0.0] - Unreleased
+
+- Upload videos with a built-in tus client instead of `ankitpokhrel/tus-php`. The library now depends only on `ext-curl` and `ext-json`, which drops Guzzle, Carbon, Predis, several Symfony components and Ramsey UUID (about 2,400 files) from projects that use it.
+- Stream each upload chunk from the file instead of reading it into memory.
+- After a failed chunk, ask the server for its offset and resume from there, because a failed request may still have stored part of the chunk.
+- Breaking: the constructor no longer accepts a `TusClientFactory`, and `Upload\TusClient` and `Upload\TusClientFactory` are removed. Override `getTusUpload()` to customize the upload, and `waitBeforeRetry()` to change the retry delay.
+- Mark the constructor's `$access_token` as explicitly nullable for PHP 8.4.
+
 ## [4.0.1] - 2024-06-04
 
 - Allow perform_upload_tus() to be extended

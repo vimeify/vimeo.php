@@ -1,11 +1,10 @@
 <?php
 namespace Vimeify\Vimeo;
 
-use Carbon\Carbon;
 use Vimeify\Vimeo\Exceptions\VimeoException;
 use Vimeify\Vimeo\Exceptions\VimeoRequestException;
 use Vimeify\Vimeo\Exceptions\VimeoUploadException;
-use Vimeify\Vimeo\Upload\TusClientFactory;
+use Vimeify\Vimeo\Upload\TusUpload;
 
 /**
  *   Copyright 2013 Vimeo
@@ -52,18 +51,14 @@ class Vimeo
     /** @var null|string */
     private $_access_token = null;
 
-    /** @var TusClientFactory */
-    private $_tus_client_factory = null;
-
     /**
      * Creates the Vimeo library, and tracks the client and token information.
      *
      * @param string $client_id Your applications client id. Can be found on developer.vimeo.com/apps
      * @param string $client_secret Your applications client secret. Can be found on developer.vimeo.com/apps
      * @param string|null $access_token Your access token. Can be found on developer.vimeo.com/apps or generated using OAuth 2.
-     * @param TusClientFactory|null $tus_client_interface Your tus client that will be used.
      */
-    public function __construct(string $client_id, string $client_secret, string $access_token = null, TusClientFactory $tus_client_factory = null)
+    public function __construct(string $client_id, string $client_secret, ?string $access_token = null)
     {
         $this->_client_id = $client_id;
         $this->_client_secret = $client_secret;
@@ -76,7 +71,6 @@ class Vimeo
             //Certificate must indicate that the server is the server to which you meant to connect.
             CURLOPT_SSL_VERIFYHOST => 2,
         );
-        $this->_tus_client_factory = $tus_client_factory ?? new TusClientFactory();
     }
 
     /**
@@ -583,30 +577,22 @@ class Vimeo
     {
         $default_chunk_size = (100 * 1024 * 1024); // 100 MB
 
-        $url = $attempt['body']['upload']['upload_link'];
-        $url_path = parse_url($url)['path'];
-
-        $base_url = str_replace($url_path, '', $url);
-        $api_path = $url_path;
-        $api_pathp = explode('/', $api_path);
-        $key = $api_pathp[count($api_pathp) - 1];
-        $api_path = str_replace('/' . $key, '', $api_path);
-
-        $bytes_uploaded = 0;
-        $failures = 0;
         $chunk_size = $this->getTusUploadChunkSize($default_chunk_size, (int)$file_size);
+        $upload = $this->getTusUpload($attempt['body']['upload']['upload_link'], $file_path);
 
-        $client = $this->_tus_client_factory->getTusClient($base_url, $url);
-        $client->setApiPath($api_path);
-        $client->setKey($key)->file($file_path);
-        $client->getCache()->set($client->getKey(),[
-            'location' => $url,
-            'expires_at' => Carbon::now()->addSeconds($client->getCache()->getTtl())->format($client->getCache()::RFC_7231),
-        ]);
+        $bytes_uploaded = null;
+        $failures = 0;
 
         do {
             try {
-                $bytes_uploaded = $client->upload($chunk_size);
+                // Ask the server where to start, and again after a failure, because a failed
+                // request may still have stored part of its chunk.
+                if ($bytes_uploaded === null) {
+                    $bytes_uploaded = $upload->getOffset();
+                }
+                if ($bytes_uploaded < $file_size) {
+                    $bytes_uploaded = $upload->uploadChunk($bytes_uploaded, $chunk_size);
+                }
             } catch (\Exception $e) {
                 // We likely experienced a timeout, but if we experience three in a row, then we should back off and
                 // fail so as to not overwhelm servers that are, probably, down.
@@ -615,11 +601,35 @@ class Vimeo
                 }
 
                 $failures++;
-                sleep((int)pow(4, $failures)); // sleep 4, 16, 64 seconds (based on failure count)
+                $bytes_uploaded = null;
+                $this->waitBeforeRetry($failures);
             }
-        } while ($bytes_uploaded < $file_size);
+        } while ($bytes_uploaded === null || $bytes_uploaded < $file_size);
 
         return $attempt['body']['uri'];
+    }
+
+    /**
+     * Creates the tus upload for an upload link.
+     *
+     * @param string $url The upload link.
+     * @param string $file_path Path to the video file to upload.
+     * @return TusUpload
+     */
+    protected function getTusUpload(string $url, string $file_path): TusUpload
+    {
+        return new TusUpload($url, $file_path, $this->_curl_opts + $this->CURL_DEFAULTS);
+    }
+
+    /**
+     * Waits before retrying a failed upload request: 4, 16, then 64 seconds.
+     *
+     * @param int $failures How many requests have failed so far.
+     * @return void
+     */
+    protected function waitBeforeRetry(int $failures): void
+    {
+        sleep(max(0, 4 ** $failures));
     }
 
     /**
